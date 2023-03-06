@@ -1,0 +1,134 @@
+﻿<Window x:Class="StartWindow.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+        xmlns:viewModel="clr-namespace:StartWindow.ViewModels"
+        xmlns:local="clr-namespace:StartWindow.Views"
+        mc:Ignorable="d"
+        Title="MainView" Height="450" Width="900">
+
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:ViewModelBase}">
+            <local:HomeView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Border CornerRadius="10">
+            <Border CornerRadius="12"
+            BorderThickness="3"
+            Opacity="0.95">
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="{StaticResource winBorderColor}" Offset="0"/>
+                        <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.75"/>
+                        <GradientStop Color="AliceBlue " Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+
+
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <!--Navigation menu-->
+                        <ColumnDefinition Width="250"/>
+                        <!--Content section-->
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Navigation menu-->
+                    <Border CornerRadius="10,0,0,10"
+                        Grid.Column="0">
+                        <Border.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,0.7">
+                                <GradientStop Color="{StaticResource secondaryBackColor1}" Offset="0"/>
+                                <GradientStop Color="{StaticResource secondaryBackColor2}" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal"
+                                Height="35"
+                                Margin="15,25,0,40">
+                                <Image Source="/Images/hackerX512.png" Height="30"/>
+                                <TextBlock Text="Custom Window"
+                                       Foreground="{StaticResource titleColor2}"
+                                       FontSize="20"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center"
+                                       Margin="10,0,0,0"/>
+
+                            </StackPanel>
+
+                            <!--Menu buttons-->
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource color5}"
+                                         Command="{Binding HomeViewCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="Home" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Home" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource color1}"
+                                         Command="{Binding CatPartCommand}"
+                                         IsChecked="True">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="ProductHunt" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Select catpart" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource color2}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="FileText" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Select xml" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton Style="{StaticResource menuButton}"
+                                     Tag="{StaticResource color3}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fa:IconImage Icon="file" Style="{StaticResource menuButtonIcon}"/>
+                                    <TextBlock Text="Select xls" Style="{StaticResource menuButtonText}"/>
+                                </StackPanel>
+                            </RadioButton>
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!--Main Section-->
+                    <Border CornerRadius="0,10,10,0"
+                        Grid.Column="1">
+                        <Border.Background>
+                            <LinearGradientBrush  StartPoint="0,0" EndPoint="1,0.7">
+                                <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                                <GradientStop Color="{StaticResource primaryBackColor2}" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <!--Content section-->
+                        <ContentControl Content="{Binding CurrentChildView}"
+                                        Grid.Row="2"
+                                        Margin="25"/>
+                        
+
+                    </Border>
+
+                    <!--https://youtu.be/kxhvwGEqvcs?t=1391-->
+
+                </Grid>
+
+
+            </Border>
+        </Border>
+    </Grid>
+</Window>

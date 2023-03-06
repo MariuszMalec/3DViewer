@@ -1,0 +1,202 @@
+﻿<Window x:Class="StartWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StartWindow"
+        xmlns:viewModel="clr-namespace:StartWindow.ViewModels"
+        mc:Ignorable="d"
+        Title="Start Window for Automated process" 
+        Height="850" 
+        Width="1370" 
+        Topmost="False" 
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True"
+        >
+
+    <!--<Window.DataContext>
+        <viewModel:BaseViewModel />
+    </Window.DataContext>    
+    
+    
+    <Border CornerRadius="10">
+        <Border.Background>
+            <ImageBrush ImageSource ="/Images/hackerX512.png"/>
+        </Border.Background>
+        <Border CornerRadius="12"
+            BorderThickness="4"
+            Opacity="0.95">
+            <Border.BorderBrush>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="{StaticResource winBorderColor}" Offset="0"/>
+                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="0.75"/>
+                    <GradientStop Color="{StaticResource winBorderColor2}" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+
+            <Border.Background>
+                <LinearGradientBrush  StartPoint="0,1" EndPoint="1,0">
+                    <GradientStop Color="{StaticResource primaryBackColor1}" Offset="0"/>
+                    <GradientStop  Color="{StaticResource primaryBackColor2}" Offset="0.75"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="110*"/>
+                    <RowDefinition Height="90*"/>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="227"/>
+                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition Width="425"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="0" Grid.RowSpan="2">
+                    <TextBox Margin="90,5,0,0" x:Name="username" IsEnabled="False" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="124" IsReadOnly="True"/>
+                    <Button Margin="100,30,0,0" x:Name="Button_rootengdir" Content="RootEngDir" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="26"/>
+                    <Button Margin="100,60,0,0" Content="Wpisz Order =>" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" FontWeight="Bold" Background="#FF5AD721" FontStyle="Italic"/>
+                    <ComboBox Margin="10,90,0,0" x:Name="wybranamaszyna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_Machine_SelectionChanged" FontWeight="Bold" Background="{x:Null}" OpacityMask="#FF53942B">
+                        <ComboBoxItem Content="HM_HSTM_300_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="HM_HSTM_300HD_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="SH_HX151_24_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="HURON_EX20_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="HM_HSTM_500_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="HM_HSTM_500M_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="HM_HSTM_1000_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="FADAL" HorizontalAlignment="Left" Width="192"/>
+                    </ComboBox>
+                    <Button Command="{Binding CatPartSelectCommand}" Margin="100,120,0,0" ToolTip ="Wybierz CatPart dla zwyklej lopatki" x:Name="Button_catpart" Content="Wybierz CATPART" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" FontWeight="Bold" Background="#FF3CE217" FontStyle="Italic" Click="Button_catpart_Click"/>
+                    <Button Margin="100,150,0,0" x:Name="Button_xml" Content="Wybierz XML" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" Click="Button_xml_Click"/>
+                    <Button Margin="100,180,0,0" x:Name="wybierzxls" Content="Wybierz XLS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxls_Click"/>
+                    <Button Margin="80,210,0,0" x:Name="wybierzpartsb" Content="Wybierz CATPART SB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzpartsb_Click"/>
+                    <Button Margin="80,240,0,0" x:Name="wybierzxmlsb" Content="Wybierz XML SB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxmlsb_Click"/>
+                    <Button Margin="80,270,0,0" x:Name="wybierzparteb" Content="Wybierz CATPART EB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzparteb_Click"/>
+                    <Button Margin="80,300,0,0" x:Name="wybierzxmleb" Content="Wybierz XML EB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxmleb_Click"/>
+                </Grid>
+
+                <Grid Grid.Column="1" Grid.RowSpan="2">
+                    <TextBox Margin="0,5,0,0" x:Name="stlpart" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="1BCD405687P1001_-.stl" VerticalAlignment="Top" Width="550" IsEnabled="False"/>
+                    <TextBox Margin="560,5,0,0" x:Name="bpmtype" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.394,-0.634" IsEnabled="False"/>
+                    <TextBox Margin="0,32,0,0" x:Name="rootengdir" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" IsEnabled="False"/>
+                    <TextBox Margin="350,32,0,0" x:Name="rootmfgdir" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" IsEnabled="False"/>
+                    <TextBox Margin="0,60,0,0" ToolTip ="Wpisz numer programu" x:Name="order" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="622"/>
+                    <TextBox Margin="0,90,0,0" x:Name="machine" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="622" IsReadOnly="True"/>
+                    <TextBox Text="{Binding CatPart, UpdateSourceTrigger=PropertyChanged}" Margin="0,120,0,0" x:Name="catpartfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="686"/>
+                    <TextBox Margin="0,150,0,0" x:Name="xmlfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+                    <TextBox Margin="0,180,0,0" x:Name="xlsfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+                    <TextBox Margin="0,210,0,0" x:Name="catpartfilefirstblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="687"/>
+                    <TextBox Margin="0,240,0,0" x:Name="xmlfilefirstblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+                    <TextBox Margin="0,270,0,0" x:Name="catpartfileendblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+                    <TextBox Margin="0,300,0,0" x:Name="xmlfileendblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <CheckBox Margin="20,5,0,0" x:Name="runconfiguration" Content="Wystartuj Konfiguracje w Catii" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <CheckBox Margin="20,25,0,0"  x:Name="runbm" Content="Wystartuj BladeMilla" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <CheckBox Margin="20,45,0,0" x:Name="runcmm" Content="Wystartuj Pomiar" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <CheckBox Margin="20,65,0,0" x:Name="createstls" Content="Stworz STLy dla Vericuta" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+                    <CheckBox Margin="20,85,0,0" ToolTip ="Wybierz tylko gdy CD kierownica lub ITB kierownica obrabiana bedzie z polfabrykatu obrobionego" x:Name="createprerawbox" Content="Przygotowka (tylko ITB fix i CD fix)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Margin="20,105,0,0" x:Name="raport" Content="Stworz RAPORT" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <CheckBox Margin="20,125,0,0" ToolTip ="Dziala tylko dla RTB" x:Name="usebmtemplate" Content="Uzyj szablonu templata" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="usebmtemplate_UnChecked" Checked="usebmtemplate_Checked"/>
+                    <CheckBox Margin="20,145,0,0" x:Name="noxls" Content="BRAK XLSa" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+                    <CheckBox Margin="20,165,0,0" ToolTip ="Jeszcze nie dziala" x:Name="middletol" Content="Czy program na srodek tolerancji?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                </Grid>
+
+                <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                    <ComboBox Margin="20,5,0,0" x:Name="wybranemocowanie" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_Clamping_SelectionChanged" FontWeight="Bold">
+                        <ComboBoxItem Content="GripPin" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="GripPinWelding" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="DovetailPinWelding" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="DovetailPin" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="DovetailPinCenterBox" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="GripTang" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="GripCenter" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="GripGrip" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="GripZabierak" HorizontalAlignment="Left" Width="192"/>
+                    </ComboBox>
+                    <CheckBox Margin="20,35,0,0" x:Name="pinweling" Content="Zgrzany nit" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+                    <CheckBox Margin="20,55,0,0" x:Name="millshroud" Content="Frezowanie bandaza" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+                    <ComboBox Margin="20,75,0,0" x:Name="fig_n" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_SelectionChanged_FIG_N" FontWeight="Bold">
+                        <ComboBoxItem Content="F1" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="F2" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="F2A" HorizontalAlignment="Left" Width="192"/>
+                        <ComboBoxItem Content="F3" HorizontalAlignment="Left" Width="192"/>
+                    </ComboBox>
+                    <Button Margin="240,5,0,0" x:Name="Button_BMTemplate" Content="Wybierz BMTemplate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" RenderTransformOrigin="0.478,0.226" Click="Button_BMTemplate_Click"/>
+                    <TextBox IsEnabled="False" Margin="395,5,0,0" x:Name="bmtemplatefile" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="468"/>
+                    <TextBox IsEnabled="False" Margin="395,30,0,0" x:Name="Mocowanieztemplata" HorizontalAlignment="Left" Height="21" TextWrapping="Wrap" Text="Mocowanie z templata" VerticalAlignment="Top" Width="467"/>
+                    <TextBlock Margin="-300,30,0,0" Width="100" Height="20" Text="FIGURA NOZKI" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+                    <TextBox IsEnabled="False" Margin="240,75,0,0" x:Name="tb_fig_n" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" IsReadOnly="True" FontWeight="Bold" FontStyle="Italic"/>
+                    <TextBlock Margin="100,30,0,0"  Width="100" Height="20" Text="MOCOWANIE" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+                    <TextBox IsEnabled="False" Margin="375,75,0,0" x:Name="clamping" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Text="TextBox" IsReadOnly="True" FontWeight="Bold" FontStyle="Italic"/>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Button Margin="5,5,0,0" x:Name="Button_startprocess" Content="START&#xD;&#xA;(ENTER)" HorizontalAlignment="Left" Height="40"  VerticalAlignment="Top" Width="103" Background="#FF45A037" Click="Button_StartProcess_Click" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" FontFamily="Lucida Handwriting">
+                        <Button.BorderBrush>
+                            <RadialGradientBrush>
+                                <GradientStop Color="Black" Offset="1"/>
+                                <GradientStop Color="White"/>
+                            </RadialGradientBrush>
+                        </Button.BorderBrush>
+                    </Button>
+                    <Button Margin="120,5,0,0" x:Name="Przerwij" Content="PRZERWIJ&#xD;&#xA;(ESC)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Height="40" Background="#FFD84D4D" Click="Button_Przerwij_Click" FontWeight="Bold" FontStyle="Italic" FontFamily="Lucida Handwriting"/>
+                </Grid>
+
+                <Grid Grid.Column="1" Grid.Row="1">
+                    <ListView x:Name="pokazdanezbmdfile" HorizontalAlignment="Left" Margin="10.8,5,0,0" VerticalAlignment="Stretch" Width="303" Background="{x:Null}" Grid.Row="1">
+                        <ListView.View>
+                            <GridView x:Name="gridviewbmdxmlfile">
+                                <GridViewColumn Header="Dane z XMLa" Width="300"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Background" Value="AliceBlue" />
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="Material   | STT17/13W">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="BorderBrush" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
+                    <ListView x:Name="pokazdanezexcela" HorizontalAlignment="Stretch" Margin="318.8,5,0,0" VerticalAlignment="Stretch" Width="314">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Dane z Excela" Width="300"></GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Style.Triggers>
+                                    <Trigger Property="Content" Value="MATERIAL = A">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="BorderBrush" Value="Red" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
+                </Grid>
+
+
+            </Grid>
+        </Border>
+    </Border>-->
+</Window>

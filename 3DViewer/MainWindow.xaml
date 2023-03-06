@@ -1,0 +1,267 @@
+﻿<Window x:Class="Display3DModel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:helix="http://helix-toolkit.org/wpf"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        Title="3D Viewer" Height="850" Width="1370" Topmost="False" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="OnKeyDownHandler" Background="{x:Null}">
+    <Grid x:Name="pnlGrid">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Black" Offset="0"/>
+                <GradientStop Color="#FF20CECB" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="110*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="227"/>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition Width="425"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <helix:HelixViewport3D x:Name="viewPort3d" ZoomExtentsWhenLoaded="true" Grid.Column="2" TitleBackground="Black" Grid.RowSpan="4" >
+            <!-- Remember to add light to the scene -->
+            <helix:DefaultLights/>
+        </helix:HelixViewport3D>
+
+        <Grid Grid.Row="0" Grid.RowSpan="2">
+            <TextBox Margin="90,5,0,0" x:Name="username" IsEnabled="False" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="124" IsReadOnly="True"/>
+            <Button Margin="0,0,0,0" x:Name="Button_model3d" Content="Model 3D" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="109"/>
+            <Button Margin="100,30,0,0" x:Name="Button_rootengdir" Content="RootEngDir" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" Height="26" Click="Button_Click_1"/>
+            <Button Margin="100,60,0,0" Content="Wpisz Order =>" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" FontWeight="Bold" Background="#FF5AD721" Click="Button_Click_4" FontStyle="Italic"/>
+            <ComboBox Margin="10,90,0,0" x:Name="wybranamaszyna" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_SelectionChanged_machine" FontWeight="Bold" Background="{x:Null}" OpacityMask="#FF53942B">
+                <ComboBoxItem Content="HM_HSTM_300_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="HM_HSTM_300HD_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="SH_HX151_24_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="HURON_EX20_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="HM_HSTM_500_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="HM_HSTM_500M_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="HM_HSTM_1000_SIM840D" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="FADAL" HorizontalAlignment="Left" Width="192"/>
+            </ComboBox>
+            <Button Margin="100,120,0,0" ToolTip ="Wybierz CatPart dla zwyklej lopatki" x:Name="Button_catpart" Content="Wybierz CATPART" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" FontWeight="Bold" Click="WybierzCatPart_Click" Background="#FF3CE217" FontStyle="Italic"/>
+            <Button Margin="100,150,0,0" x:Name="Button_xml" Content="Wybierz XML" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" Click="Button_xml_Click"/>
+            <Button Margin="100,180,0,0" x:Name="wybierzxls" Content="Wybierz XLS" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxls_Click"/>
+            <Button Margin="80,210,0,0" x:Name="wybierzpartsb" Content="Wybierz CATPART SB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzpartsb_Click"/>
+            <Button Margin="80,240,0,0" x:Name="wybierzxmlsb" Content="Wybierz XML SB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxmlsb_Click"/>
+            <Button Margin="80,270,0,0" x:Name="wybierzparteb" Content="Wybierz CATPART EB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzparteb_Click"/>
+            <Button Margin="80,300,0,0" x:Name="wybierzxmleb" Content="Wybierz XML EB" HorizontalAlignment="Left" VerticalAlignment="Top" Width="129" RenderTransformOrigin="0.47,-0.245" Height="23" Click="wybierzxmleb_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <CheckBox Margin="20,5,0,0" x:Name="runconfiguration" Content="Wystartuj Konfiguracje w Catii" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Checked="runconfiguration_Checked"/>
+            <CheckBox Margin="20,25,0,0"  x:Name="runbm" Content="Wystartuj BladeMilla" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+            <CheckBox Margin="20,45,0,0" x:Name="runcmm" Content="Wystartuj Pomiar" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+            <CheckBox Margin="20,65,0,0" x:Name="createstls" Content="Stworz STLy dla Vericuta" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"/>
+            <CheckBox Margin="20,85,0,0" ToolTip ="Wybierz tylko gdy CD kierownica lub ITB kierownica obrabiana bedzie z polfabrykatu obrobionego" x:Name="createprerawbox" Content="Przygotowka (tylko ITB fix i CD fix)" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <CheckBox Margin="20,105,0,0" x:Name="raport" Content="Stworz RAPORT" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <CheckBox Margin="20,125,0,0" ToolTip ="Dziala tylko dla RTB" x:Name="usebmtemplate" Content="Uzyj szablonu templata" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="usebmtemplate_UnChecked" Checked="usebmtemplate_Checked"/>
+            <CheckBox Margin="20,145,0,0" x:Name="noxls" Content="BRAK XLSa" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+            <CheckBox Margin="20,165,0,0" ToolTip ="Jeszcze nie dziala" x:Name="middletol" Content="Czy program na srodek tolerancji?" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <ComboBox Margin="20,195,0,0" x:Name="selectedTypeOfProcess" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_SelectionChanged_TypeOfProcess" FontWeight="Bold">
+                <ComboBoxItem Content="PodBeben" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="PodSzlif" HorizontalAlignment="Left" Width="192"/>
+            </ComboBox>
+        </Grid>
+
+
+        <Grid Grid.Column="1" Grid.RowSpan="2">
+            <TextBox Margin="0,5,0,0" x:Name="stlpart" HorizontalAlignment="Left" Height="25" TextWrapping="Wrap" Text="1BCD405687P1001_-.stl" VerticalAlignment="Top" Width="550" IsEnabled="False"/>
+            <TextBox Margin="560,5,0,0" x:Name="bpmtype" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.394,-0.634" IsEnabled="False"/>
+            <TextBox Margin="0,32,0,0" x:Name="rootengdir" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" IsEnabled="False"/>
+            <TextBox Margin="350,32,0,0" x:Name="rootmfgdir" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="300" IsEnabled="False"/>
+            <TextBox Margin="0,60,0,0" ToolTip ="Wpisz numer programu" x:Name="order" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="622"/>
+            <TextBox Margin="0,90,0,0" x:Name="machine" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="622" IsReadOnly="True"/>
+            <TextBox Margin="0,120,0,0" x:Name="catpartfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+            <TextBox Margin="0,150,0,0" x:Name="xmlfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+            <TextBox Margin="0,180,0,0" x:Name="xlsfile" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+            <TextBox Margin="0,210,0,0" x:Name="catpartfilefirstblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="687"/>
+            <TextBox Margin="0,240,0,0" x:Name="xmlfilefirstblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+            <TextBox Margin="0,270,0,0" x:Name="catpartfileendblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+            <TextBox Margin="0,300,0,0" x:Name="xmlfileendblade" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="686"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+            <ComboBox Margin="20,5,0,0" x:Name="wybranemocowanie" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_SelectionChanged_Clamp" FontWeight="Bold">
+                <ComboBoxItem Content="GripPin" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="GripPinWelding" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="DovetailPinWelding" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="DovetailPin" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="DovetailPinCenterBox" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="GripTang" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="GripCenter" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="GripGrip" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="GripZabierak" HorizontalAlignment="Left" Width="192"/>
+            </ComboBox>
+            <CheckBox Margin="20,35,0,0" x:Name="pinweling" Content="Zgrzany nit" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+            <CheckBox Margin="20,55,0,0" x:Name="millshroud" Content="Frezowanie bandaza" HorizontalAlignment="Left" VerticalAlignment="Top" Unchecked="noxls_UnChecked" Checked="noxls_Checked"/>
+            <ComboBox Margin="20,75,0,0" x:Name="fig_n" HorizontalAlignment="Left" VerticalAlignment="Top" Width="202" RenderTransformOrigin="0.195,0.854" SelectionChanged="ComboBox_SelectionChanged_FIG_N" FontWeight="Bold">
+                <ComboBoxItem Content="F1" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="F2" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="F2A" HorizontalAlignment="Left" Width="192"/>
+                <ComboBoxItem Content="F3" HorizontalAlignment="Left" Width="192"/>
+            </ComboBox>
+            <Button Margin="240,5,0,0" x:Name="Button_BMTemplate" Content="Wybierz BMTemplate" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" RenderTransformOrigin="0.478,0.226" Click="Button_BMTemplate_Click"/>
+            <TextBox Margin="395,5,0,0" x:Name="bmtemplatefile" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="468"/>
+            <TextBox Margin="395,30,0,0" x:Name="Mocowanieztemplata" HorizontalAlignment="Left" Height="21" TextWrapping="Wrap" Text="Mocowanie z templata" VerticalAlignment="Top" Width="467"/>
+            <TextBlock Margin="-300,30,0,0" Width="100" Height="20" Text="FIGURA NOZKI" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+            <TextBox Margin="240,75,0,0" x:Name="tb_fig_n" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" IsReadOnly="True" FontWeight="Bold" FontStyle="Italic"/>
+            <TextBlock Margin="100,30,0,0"  Width="100" Height="20" Text="MOCOWANIE" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+            <TextBox Margin="375,75,0,0" x:Name="clamping" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Text="TextBox" IsReadOnly="True" FontWeight="Bold" FontStyle="Italic"/>
+            <TextBlock Margin="550,30,0,0"  Width="100" Height="20" Text="PROCES" FontWeight="Bold" FontStyle="Italic" TextDecorations="Underline"></TextBlock>
+            <TextBox Margin="630,75,0,0" x:Name="tb_TypeOfProcess" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" Text="TextBox" IsReadOnly="True" FontWeight="Bold" FontStyle="Italic"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <ListView x:Name="pokazdanezbmdfile" HorizontalAlignment="Left" Margin="10.8,5,0,0" VerticalAlignment="Stretch" Width="303" Background="{x:Null}" Grid.Row="1">
+                <ListView.View>
+                    <GridView x:Name="gridviewbmdxmlfile">
+                        <GridViewColumn Header="Dane z XMLa" Width="300"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="AliceBlue" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="Material   | STT17/13W">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderBrush" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <ListView x:Name="pokazdanezexcela" HorizontalAlignment="Stretch" Margin="318.8,5,0,0" VerticalAlignment="Stretch" Width="314">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Dane z Excela" Width="300"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="MATERIAL = A">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderBrush" Value="Red" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+        </Grid>
+
+
+        <Grid Grid.Row="3">
+            <Button Margin="5,5,0,0" x:Name="Button_startprocess" Content="START&#xD;&#xA;(ENTER)" HorizontalAlignment="Left" Height="40"  VerticalAlignment="Top" Width="103" Background="#FF45A037" Click="Button_Click" FontWeight="Bold" FontStyle="Italic" HorizontalContentAlignment="Center" FontFamily="Lucida Handwriting">
+                <Button.BorderBrush>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="White"/>
+                    </RadialGradientBrush>
+                </Button.BorderBrush>
+            </Button>
+            <Button Margin="120,5,0,0" x:Name="Przerwij" Content="PRZERWIJ&#xD;&#xA;(ESC)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="99" Height="40" Background="#FFD84D4D" Click="Button_Click_2" FontWeight="Bold" FontStyle="Italic" FontFamily="Lucida Handwriting"/>
+        </Grid>
+
+        <Grid Grid.Column="2" Grid.RowSpan="2" >
+            <TextBox Margin="125,0,0,0" x:Name="czas" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.394,-0.634" IsEnabled="False"/>
+            <CheckBox Margin="200,5,0,0" x:Name="Admin" Content="Admin" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.509,0.111" Foreground="#FFB92F2F" Grid.Column="1"/>
+            <CheckBox Margin="280,5,0,0" x:Name="isonedrive" Content="OneDrive" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF17AE2F"/>
+            <TextBox Margin="350,35,0,0" x:Name="bmversion" IsEnabled="False" Height="27" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="55" IsReadOnly="True" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label Margin="280,35,0,0" Content="BM wersja" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.289,0.038" Width="64" Height="27" Background="#FF557A14"/>
+            <Button Margin="5,35,0,0" x:Name="button_pokazmodel" Content="Pokaz 3D model" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="94" Click="button_pokazmodel_Click" Background="#FF17C3E4"/>
+            <TextBox x:Name="user" Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.394,-0.634" IsEnabled="False"/>
+            <ListView Margin="5,80,0,0" ItemsSource="{Binding Items}" SelectionMode="Single" x:Name="firstxml" HorizontalAlignment="Left" Height="522" VerticalAlignment="Top" Width="202" SelectionChanged="firstxml_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Text}">
+                            <TextBlock.Background>
+                                <SolidColorBrush Color="{Binding BackgroundColor}"/>
+                            </TextBlock.Background>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Dane z pierwszego xmla" Width="200"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" >
+                        <Setter Property="IsSelected" Value="{Binding Selected}" />
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Content}" Value="!"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Foreground" Value="Red" />
+                            </MultiDataTrigger>
+                            <Trigger Property="Content" Value="Material=STT17/13W">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderBrush" Value="Red" />
+                            </Trigger>
+                            <Trigger Property="Control.IsFocused" Value="True" >
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+
+                            <Trigger Property="IsSelected" Value="True" >
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Foreground" Value="Red" />
+                                <Setter Property="Control.FontStyle" Value="Italic"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="Green" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+            <ListView Margin="210,80,0,0" x:Name="secondxml"  HorizontalAlignment="Left" Height="522" VerticalAlignment="Top" Width="208">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Dane z drugiego xmla(Template)" Width="200"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderBrush" Value="Black" />
+                        <Setter Property="BorderThickness" Value="1" />
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="Material=STT17/13W">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderBrush" Value="Red" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Foreground" Value="Red" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </Grid>
+        <Menu HorizontalAlignment="Left" Height="76" VerticalAlignment="Top" Width="86">
+            <MenuItem Header="Pokaz zmiany" Height="29" Width="86" Click="MenuItem_Click"/>
+            <MenuItem Header="Pomoc (F1)" Height="21" Width="86" Click="MenuItem_Click_2" Background="{x:Null}"/>
+        </Menu>
+        <ProgressBar Margin="5,10,0,0" Grid.Row="3" x:Name="timeexcel" Grid.Column="1" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="621"/>
+    </Grid>
+</Window>
