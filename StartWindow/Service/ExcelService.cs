@@ -13,8 +13,8 @@ namespace StartWindow.Service
         private static List<TechnologyXlsFile> _allCnc;
         public static void KillExcel()
         {
-            var excelService = new BladeMillWithExcel.Logic.Services.ExcelService();
-            excelService.KillSoftware("Excel", true);
+            //var excelService = new BladeMillWithExcel.Logic.Services.ExcelService();
+            //excelService.KillSoftware("Excel", true);
         }
 
         public static List<TechnologyXlsFile> GetAll(string excelFile, string bpmtype)

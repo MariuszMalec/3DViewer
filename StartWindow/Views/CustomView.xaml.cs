@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Data.OleDb;
 using DataTable = System.Data.DataTable;
 using System.Collections.Generic;
-using BladeMillWithExcel.Logic.Services;
+//using BladeMillWithExcel.Logic.Services;
 using BladeMill.BLL.Models;
 using StartWindow.Enums;
 using StartWindow.ViewModels;
@@ -321,37 +321,39 @@ namespace StartWindow.Views
 
         private void wybierzxls_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Text files (*.xls)|*.xls|All files (*.*)|*.*";
-            openFileDialog.InitialDirectory = rootengdir.Text;
-            if (openFileDialog.ShowDialog() == true)
-            {
-                Mouse.OverrideCursor = Cursors.Wait;
+            MessageBox.Show("Brak aplikacji excel, danych nie wczytano!", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                var excelService = new BladeMillWithExcel.Logic.Services.ExcelService();
-                excelService.KillSoftware("Excel", true);
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Filter = "Text files (*.xls)|*.xls|All files (*.*)|*.*";
+            //openFileDialog.InitialDirectory = rootengdir.Text;
+            //if (openFileDialog.ShowDialog() == true)
+            //{
+            //    Mouse.OverrideCursor = Cursors.Wait;
 
-                _mainData.XlsFile = openFileDialog.FileName;
-                xlsfile.Text = _mainData.XlsFile;
-                if ((xlsfile.Text.Contains("CATPart")) || (xlsfile.Text.Contains("xml")) || (xlsfile.Text.Contains("KDT")))
-                {
-                    MessageBox.Show("You selected wrong XLS file , select again !!", "", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    //---------------------------------------------------------
-                    //wyswietla wymiary kloca z Excela i pobiera mocowanie								    				
-                    //----------------------------------------------------------
-                    if (bpmtype.Text == "RTBFixedBlade" || bpmtype.Text == "RTBMovingBlade" || bpmtype.Text == "RTBRadialFixedBlade")
-                    {
-                        if (noxls.IsChecked == false)
-                        {
-                            ReadDataFromExcel(xlsfile.Text);
-                        }
-                    }
-                }
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
+            //    var excelService = new BladeMillWithExcel.Logic.Services.ExcelService();
+            //    excelService.KillSoftware("Excel", true);
+
+            //    _mainData.XlsFile = openFileDialog.FileName;
+            //    xlsfile.Text = _mainData.XlsFile;
+            //    if ((xlsfile.Text.Contains("CATPart")) || (xlsfile.Text.Contains("xml")) || (xlsfile.Text.Contains("KDT")))
+            //    {
+            //        MessageBox.Show("You selected wrong XLS file , select again !!", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            //    }
+            //    else
+            //    {
+            //        //---------------------------------------------------------
+            //        //wyswietla wymiary kloca z Excela i pobiera mocowanie								    				
+            //        //----------------------------------------------------------
+            //        if (bpmtype.Text == "RTBFixedBlade" || bpmtype.Text == "RTBMovingBlade" || bpmtype.Text == "RTBRadialFixedBlade")
+            //        {
+            //            if (noxls.IsChecked == false)
+            //            {
+            //                ReadDataFromExcel(xlsfile.Text);
+            //            }
+            //        }
+            //    }
+            //    Mouse.OverrideCursor = Cursors.Arrow;
+            //}
         }
 
         private void ReadDataFromExcel(string path)

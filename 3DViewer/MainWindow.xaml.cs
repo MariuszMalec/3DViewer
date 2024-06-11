@@ -1,7 +1,7 @@
 ﻿using _3DViewer.Models;
+using BladeMill.BLL.SourceData;
 using HelixToolkit.Wpf;
 using Microsoft.Win32;
-using MM_Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ using System.Windows.Media.Media3D;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Excel = Microsoft.Office.Interop.Excel;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Display3DModel
 {
@@ -97,8 +97,7 @@ namespace Display3DModel
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        Data data = new Data();
+        public PathDataBase pathDataBase = new PathDataBase();
 
         public MainWindow()
         {
@@ -116,8 +115,8 @@ namespace Display3DModel
             //----------------------------------------------------------------------
             // ustawienia dla uzytkowanika
             //----------------------------------------------------------------------
-            user.Text = data.Getuserprofiledir();
-            username.Text = data.GetUserName();
+            user.Text = "brk profilu";
+            username.Text = "Anomnim";
             //MessageBox.Show(Environment.UserName, "User", MessageBoxButton.OK, MessageBoxImage.Information);
             //----------------------------------------------------------------------
             //uzytkownicy tylko informacja
@@ -155,9 +154,9 @@ namespace Display3DModel
             //----------------------------------------------------------------------
             //wez dane z Applicationconffile
             //----------------------------------------------------------------------
-            bmversion.Text = data.GetBMVersion();
-            rootengdir.Text = data.GetRootEngDir();
-            rootmfgdir.Text = data.GetRootMfgDir();
+            bmversion.Text = "brak BM";
+            rootengdir.Text = "brak rootengdir";
+            rootmfgdir.Text = "brak rootmfgdir";
             //----------------------------------------------------------------------
             //sprawdzenie czy jest katalog RootEngDir z konfiguracji BMa
             //----------------------------------------------------------------------
@@ -168,7 +167,7 @@ namespace Display3DModel
             }
 
             //sprawdzenie czy jest dysk S
-            if (!Directory.Exists(data.GetRootEngDir_dyskS()))
+            if (!Directory.Exists(pathDataBase.GetDirBladeMillScripts()))
             {
                 MessageBox.Show("Brak dysku sieciowego S", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 isexistrootengdirnet = false;
@@ -795,7 +794,7 @@ namespace Display3DModel
             //-------------------------------------------------
             if (usebmtemplate.IsChecked == true)
             {
-                string cleverhome = data.Getcleverhome();
+                string cleverhome = pathDataBase.GetCleverHome();
                 //MessageBox.Show(cleverhome.ToString(),"CLEVERHOME",MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (!cleverhome.Contains("3.17") && !cleverhome.Contains("3.18") && !cleverhome.Contains("3.19") && !cleverhome.Contains("3.2"))
                 {
@@ -2124,280 +2123,281 @@ namespace Display3DModel
         }
         void showListViewDimensionMaterialFromexcel(string path)
         {
-            try
-            {
-                pokazdanezexcela.Items.Clear();
-                timeexcel.Value = 0;
-                timeexcel.Minimum = 0;
-                timeexcel.Maximum = 100;
-                Excel.Application appl = new Excel.Application();
-                Excel.Workbook workbook = appl.Workbooks.Open(path);
-                Excel.Sheets excelSheets = workbook.Worksheets;
-                string currentSheet = "CNC";
-                timeexcel.Value++;
-                System.Threading.Thread.Sleep(100);
-                bool zakladkadane = false;
-                string materialzexcela = "";
-                string typlopatki = "";
-                //--------------------------------------------------------------
-                //OSTRZEZENIE PRZED BRAKIEM ZAKLADKI CNC!
-                //--------------------------------------------------------------
-                int numSheets = workbook.Sheets.Count;
-                for (int sheetNum = 1; sheetNum < numSheets + 1; sheetNum++)
-                {
-                    Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[sheetNum];
-                    //MessageBox.Show(sheet.Name,"",MessageBoxButton.OK, MessageBoxImage.Information);		
-                    if (sheet.Name == "CNC")
-                    {
-                        zakladkacnc = true;
-                    }
-                }
-                //--------------------------------------------------------------
-                //OSTRZEZENIE PRZED BRAKIEM ZAKLADKI DANE!
-                //--------------------------------------------------------------
-                for (int sheetNum = 1; sheetNum < numSheets + 1; sheetNum++)
-                {
-                    Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[sheetNum];
-                    //MessageBox.Show(sheet.Name,"",MessageBoxButton.OK, MessageBoxImage.Information);		
-                    if (sheet.Name == "DANE")
-                    {
-                        zakladkadane = true;
-                    }
-                }
+            MessageBox.Show("Brak aplikacji excel, nie wczytano danych", "Uwaga!", MessageBoxButton.OK, MessageBoxImage.Information);
+            //try
+            //{
+            //    pokazdanezexcela.Items.Clear();
+            //    timeexcel.Value = 0;
+            //    timeexcel.Minimum = 0;
+            //    timeexcel.Maximum = 100;
+            //    Excel.Application appl = new Excel.Application();
+            //    Excel.Workbook workbook = appl.Workbooks.Open(path);
+            //    Excel.Sheets excelSheets = workbook.Worksheets;
+            //    string currentSheet = "CNC";
+            //    timeexcel.Value++;
+            //    System.Threading.Thread.Sleep(100);
+            //    bool zakladkadane = false;
+            //    string materialzexcela = "";
+            //    string typlopatki = "";
+            //    //--------------------------------------------------------------
+            //    //OSTRZEZENIE PRZED BRAKIEM ZAKLADKI CNC!
+            //    //--------------------------------------------------------------
+            //    int numSheets = workbook.Sheets.Count;
+            //    for (int sheetNum = 1; sheetNum < numSheets + 1; sheetNum++)
+            //    {
+            //        Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[sheetNum];
+            //        //MessageBox.Show(sheet.Name,"",MessageBoxButton.OK, MessageBoxImage.Information);		
+            //        if (sheet.Name == "CNC")
+            //        {
+            //            zakladkacnc = true;
+            //        }
+            //    }
+            //    //--------------------------------------------------------------
+            //    //OSTRZEZENIE PRZED BRAKIEM ZAKLADKI DANE!
+            //    //--------------------------------------------------------------
+            //    for (int sheetNum = 1; sheetNum < numSheets + 1; sheetNum++)
+            //    {
+            //        Excel.Worksheet sheet = (Excel.Worksheet)workbook.Sheets[sheetNum];
+            //        //MessageBox.Show(sheet.Name,"",MessageBoxButton.OK, MessageBoxImage.Information);		
+            //        if (sheet.Name == "DANE")
+            //        {
+            //            zakladkadane = true;
+            //        }
+            //    }
 
-                //--------------------------------------------------------------
-                //WYCIAGNIECIE DANYCH Z ZAKLADKI DANE = > MATERIAL
-                //--------------------------------------------------------------
-                currentSheet = "DANE";
-                if (zakladkadane == true)
-                {
-                    Excel.Worksheet excelWorksheet = (Excel.Worksheet)excelSheets.get_Item(currentSheet);
-                    //--------------------------------------------------------------
-                    //CZYTANIE KOMOREK Z ECXELA
-                    //--------------------------------------------------------------
-                    var MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
-                    var TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
-                    if (bpmtype.Text == "RTBMovingBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
-                    }
-                    else if (bpmtype.Text == "RTBFixedBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[31, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
-                    }
-                    else if (bpmtype.Text == "ITBFixedPlatformBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[27, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
-                    }
-                    else if (bpmtype.Text == "CDFixedPlatformBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[27, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
-                    }
-                    else if (bpmtype.Text == "CDMovingBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[33, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
-                    }
-                    else if (bpmtype.Text == "RTBRadialFixedBlade")
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[28, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
-                    }
-                    else
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[33, 3];
-                        TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[26, 3];
-                    }
+            //    //--------------------------------------------------------------
+            //    //WYCIAGNIECIE DANYCH Z ZAKLADKI DANE = > MATERIAL
+            //    //--------------------------------------------------------------
+            //    currentSheet = "DANE";
+            //    if (zakladkadane == true)
+            //    {
+            //        Excel.Worksheet excelWorksheet = (Excel.Worksheet)excelSheets.get_Item(currentSheet);
+            //        //--------------------------------------------------------------
+            //        //CZYTANIE KOMOREK Z ECXELA
+            //        //--------------------------------------------------------------
+            //        var MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
+            //        var TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
+            //        if (bpmtype.Text == "RTBMovingBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
+            //        }
+            //        else if (bpmtype.Text == "RTBFixedBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[31, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
+            //        }
+            //        else if (bpmtype.Text == "ITBFixedPlatformBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[27, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
+            //        }
+            //        else if (bpmtype.Text == "CDFixedPlatformBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[27, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
+            //        }
+            //        else if (bpmtype.Text == "CDMovingBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[33, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[28, 3];
+            //        }
+            //        else if (bpmtype.Text == "RTBRadialFixedBlade")
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[28, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[25, 3];
+            //        }
+            //        else
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[33, 3];
+            //            TYPLOPATKI = (Excel.Range)excelWorksheet.Cells[26, 3];
+            //        }
 
-                    try//wyjatek dla Radka u niego jest 32 dla kierownicy RTBe ale nie dziala wyzej?
-                    {
-                        materialzexcela = MATERIAL.Value2.ToString();
-                    }
-                    catch
-                    {
-                        MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
-                        materialzexcela = MATERIAL.Value2.ToString();
-                    }
-                    typlopatki = TYPLOPATKI.Value2.ToString();
-                }
-                else
-                {
-                    MessageBox.Show("Plik excel nieprawidlowy brak zakladki DANE, wybierz BRAK XLSa!!!", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    mistake = true;
-                }
-                //--------------------------------------------------------------
-                //WYCIAGNIECIE DANYCH Z ZAKLADKI CNC
-                //--------------------------------------------------------------
-                currentSheet = "CNC";
-                if (zakladkacnc == true)
-                {
-                    Excel.Worksheet excelWorksheet = (Excel.Worksheet)excelSheets.get_Item(currentSheet);
-                    //--------------------------------------------------------------
-                    //OSTRZEZENIE PRZED POLSKIMI LITERAMI
-                    //--------------------------------------------------------------
-                    var Project = (Excel.Range)excelWorksheet.Cells[6, 1];//Project
-                    var Projectvalue = (Excel.Range)excelWorksheet.Cells[6, 2];//Projectvalue
-                    //MessageBox.Show(Project.Value2 + " = " + Projectvalue.Value2);
+            //        try//wyjatek dla Radka u niego jest 32 dla kierownicy RTBe ale nie dziala wyzej?
+            //        {
+            //            materialzexcela = MATERIAL.Value2.ToString();
+            //        }
+            //        catch
+            //        {
+            //            MATERIAL = (Excel.Range)excelWorksheet.Cells[32, 3];
+            //            materialzexcela = MATERIAL.Value2.ToString();
+            //        }
+            //        typlopatki = TYPLOPATKI.Value2.ToString();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Plik excel nieprawidlowy brak zakladki DANE, wybierz BRAK XLSa!!!", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
+            //        mistake = true;
+            //    }
+            //    //--------------------------------------------------------------
+            //    //WYCIAGNIECIE DANYCH Z ZAKLADKI CNC
+            //    //--------------------------------------------------------------
+            //    currentSheet = "CNC";
+            //    if (zakladkacnc == true)
+            //    {
+            //        Excel.Worksheet excelWorksheet = (Excel.Worksheet)excelSheets.get_Item(currentSheet);
+            //        //--------------------------------------------------------------
+            //        //OSTRZEZENIE PRZED POLSKIMI LITERAMI
+            //        //--------------------------------------------------------------
+            //        var Project = (Excel.Range)excelWorksheet.Cells[6, 1];//Project
+            //        var Projectvalue = (Excel.Range)excelWorksheet.Cells[6, 2];//Projectvalue
+            //        //MessageBox.Show(Project.Value2 + " = " + Projectvalue.Value2);
 
-                    char[] polishchars = { 'ę', 'ó', 'ą', 'ś', 'ł', 'ż', 'ź', 'ć', 'ń', 'Ę', 'Ó', 'Ą', 'Ś', 'Ł', 'Ż', 'Ź', 'Ć', 'Ń' };
+            //        char[] polishchars = { 'ę', 'ó', 'ą', 'ś', 'ł', 'ż', 'ź', 'ć', 'ń', 'Ę', 'Ó', 'Ą', 'Ś', 'Ł', 'Ż', 'Ź', 'Ć', 'Ń' };
 
-                    foreach (char element in polishchars)
-                    {
-                        if (Projectvalue.Value2.ToString().Contains(element.ToString()))
-                        {
-                            MessageBox.Show("UWAGA! usun polski znak: " + element.ToString() + " z komorki projekt ", "", MessageBoxButton.OK, MessageBoxImage.Error);
-                            polishletter = true;
-                        }
-                    }
-                    //--------------------------------------------------------------
-                    //CZYTANIE KOMOREK Z ECXELA
-                    //--------------------------------------------------------------
-                    var GRIP = (Excel.Range)excelWorksheet.Cells[39, 2];
-                    var Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[40, 2];
-                    var FIG_BAND = (Excel.Range)excelWorksheet.Cells[41, 2];
-                    var FIG_N = (Excel.Range)excelWorksheet.Cells[42, 2];
-                    var Avalue = (Excel.Range)excelWorksheet.Cells[13, 2];//Avalue
-                    var Bvalue = (Excel.Range)excelWorksheet.Cells[14, 2];//Bvalue
-                    var Lvalue = (Excel.Range)excelWorksheet.Cells[22, 2];//Lvalue
-                    var Obr_band = (Excel.Range)excelWorksheet.Cells[38, 2];
-                    if (bpmtype.Text == "ITBMovingBlade")
-                    {
-                        GRIP = (Excel.Range)excelWorksheet.Cells[38, 2];
-                        Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[39, 2];
-                    }
-                    else
-                    {
-                        GRIP = (Excel.Range)excelWorksheet.Cells[39, 2];
-                        Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[40, 2];
-                    }
-                    var LJO = (Excel.Range)excelWorksheet.Cells[17, 2];
-                    var D = (Excel.Range)excelWorksheet.Cells[23, 2];
-                    var C = (Excel.Range)excelWorksheet.Cells[24, 2];
-                    var KDKNo = (Excel.Range)excelWorksheet.Cells[8, 2];
-                    var FN = (Excel.Range)excelWorksheet.Cells[40, 2];
-                    //--------------------------------------------------------------
-                    //WYPELNIENIE LISTVIEW
-                    //--------------------------------------------------------------
-                    pokazdanezexcela.Items.Clear();
-                    pokazdanezexcela.Items.Add("TYP LOP" + " = " + typlopatki);
-                    pokazdanezexcela.Items.Add("KDKNo" + " = " + KDKNo.Value2.ToString());
-                    pokazdanezexcela.Items.Add("Project" + " = " + Projectvalue.Value2.ToString());
-                    pokazdanezexcela.Items.Add("MATERIAL" + " = " + materialzexcela);
-                    pokazdanezexcela.Items.Add("A" + " = " + Avalue.Value2.ToString());
-                    pokazdanezexcela.Items.Add("B" + " = " + Bvalue.Value2.ToString());
-                    pokazdanezexcela.Items.Add("C" + " = " + C.Value2.ToString());
-                    pokazdanezexcela.Items.Add("D" + " = " + D.Value2.ToString());
-                    pokazdanezexcela.Items.Add("L" + " = " + Lvalue.Value2.ToString());
-                    try
-                    {
-                        pokazdanezexcela.Items.Add("FN" + " = " + FN.Value2.ToString());
-                    }
-                    catch { }
-                    try
-                    {
-                        pokazdanezexcela.Items.Add("LJO" + " = " + LJO.Value2.ToString());
-                    }
-                    catch { }
-                    try
-                    {
-                        pokazdanezexcela.Items.Add("GRIP" + " = " + GRIP.Value2.ToString());
-                    }
-                    catch { }
-                    pokazdanezexcela.Items.Add("Zgrz_PIN" + " = " + Zgrz_PIN.Value2.ToString());
-                    if (bpmtype.Text == "ITBMovingBlade")
-                    { }
-                    else
-                    {
-                        try
-                        {
-                            pokazdanezexcela.Items.Add("Obr_band" + " = " + Obr_band.Value2.ToString());
-                        }
-                        catch
-                        {
-                            pokazdanezexcela.Items.Add("Obr_band" + " = " + "PUSTO");
-                        }
-                        try
-                        {
-                            pokazdanezexcela.Items.Add("FIG_BAND" + " = " + FIG_BAND.Value2.ToString());
-                        }
-                        catch
-                        {
-                            pokazdanezexcela.Items.Add("FIG_BAND" + " = " + "PUSTO");
-                        }
-                        try
-                        {
-                            pokazdanezexcela.Items.Add("FIG_N" + " = " + FIG_N.Value2.ToString());
-                            if (FIG_N.Value2.ToString() == "F2A")
-                            {
-                                MessageBox.Show("FIGURA F2A , wykonac recznie dodatkowe operacje frezowania czol nozki!", "UWAGA", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                            if (FIG_N.Value2.ToString() == "F3 (F2A)")
-                            {
-                                MessageBox.Show("FIGURA F3 (F2A) , wykonac recznie dodatkowe operacje frezowania czol nozki!", "UWAGA", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                        }
-                        catch
-                        {
-                            pokazdanezexcela.Items.Add("FIG_N" + " = " + "PUSTO");
-                        }
-                    }
-                    //--------------------------------------------------------------
-                    //PRZY OSIOWYCH BRAK WPISANEJ KOMORKI GRIP!!!
-                    //--------------------------------------------------------------
-                    if (bpmtype.Text != "RTBRadialFixedBlade")
-                    {
-                        //--------------------------------------------------------------
-                        //WSTAWIENIE MOCOWANIA
-                        //--------------------------------------------------------------
-                        if (GRIP.Value2.ToString() == "TAK" && Zgrz_PIN.Value2.ToString() == "TAK")
-                        {
-                            //MessageBox.Show("GripPinWelding", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Information);
-                            clamping.Text = "GripPinWelding";
-                        }
-                        else if (GRIP.Value2.ToString() == "TAK" && Zgrz_PIN.Value2.ToString() == "NIE")
-                        {
-                            //MessageBox.Show("GripPin", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Information);
-                            clamping.Text = "GripPin";
-                        }
-                        else
-                        {
-                            MessageBox.Show("Bledne mocowanie, zglos sie do Mariusza!", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
-                    else
-                    {
-                        clamping.Text = "GripPinWelding";
-                    }
+            //        foreach (char element in polishchars)
+            //        {
+            //            if (Projectvalue.Value2.ToString().Contains(element.ToString()))
+            //            {
+            //                MessageBox.Show("UWAGA! usun polski znak: " + element.ToString() + " z komorki projekt ", "", MessageBoxButton.OK, MessageBoxImage.Error);
+            //                polishletter = true;
+            //            }
+            //        }
+            //        //--------------------------------------------------------------
+            //        //CZYTANIE KOMOREK Z ECXELA
+            //        //--------------------------------------------------------------
+            //        var GRIP = (Excel.Range)excelWorksheet.Cells[39, 2];
+            //        var Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[40, 2];
+            //        var FIG_BAND = (Excel.Range)excelWorksheet.Cells[41, 2];
+            //        var FIG_N = (Excel.Range)excelWorksheet.Cells[42, 2];
+            //        var Avalue = (Excel.Range)excelWorksheet.Cells[13, 2];//Avalue
+            //        var Bvalue = (Excel.Range)excelWorksheet.Cells[14, 2];//Bvalue
+            //        var Lvalue = (Excel.Range)excelWorksheet.Cells[22, 2];//Lvalue
+            //        var Obr_band = (Excel.Range)excelWorksheet.Cells[38, 2];
+            //        if (bpmtype.Text == "ITBMovingBlade")
+            //        {
+            //            GRIP = (Excel.Range)excelWorksheet.Cells[38, 2];
+            //            Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[39, 2];
+            //        }
+            //        else
+            //        {
+            //            GRIP = (Excel.Range)excelWorksheet.Cells[39, 2];
+            //            Zgrz_PIN = (Excel.Range)excelWorksheet.Cells[40, 2];
+            //        }
+            //        var LJO = (Excel.Range)excelWorksheet.Cells[17, 2];
+            //        var D = (Excel.Range)excelWorksheet.Cells[23, 2];
+            //        var C = (Excel.Range)excelWorksheet.Cells[24, 2];
+            //        var KDKNo = (Excel.Range)excelWorksheet.Cells[8, 2];
+            //        var FN = (Excel.Range)excelWorksheet.Cells[40, 2];
+            //        //--------------------------------------------------------------
+            //        //WYPELNIENIE LISTVIEW
+            //        //--------------------------------------------------------------
+            //        pokazdanezexcela.Items.Clear();
+            //        pokazdanezexcela.Items.Add("TYP LOP" + " = " + typlopatki);
+            //        pokazdanezexcela.Items.Add("KDKNo" + " = " + KDKNo.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("Project" + " = " + Projectvalue.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("MATERIAL" + " = " + materialzexcela);
+            //        pokazdanezexcela.Items.Add("A" + " = " + Avalue.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("B" + " = " + Bvalue.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("C" + " = " + C.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("D" + " = " + D.Value2.ToString());
+            //        pokazdanezexcela.Items.Add("L" + " = " + Lvalue.Value2.ToString());
+            //        try
+            //        {
+            //            pokazdanezexcela.Items.Add("FN" + " = " + FN.Value2.ToString());
+            //        }
+            //        catch { }
+            //        try
+            //        {
+            //            pokazdanezexcela.Items.Add("LJO" + " = " + LJO.Value2.ToString());
+            //        }
+            //        catch { }
+            //        try
+            //        {
+            //            pokazdanezexcela.Items.Add("GRIP" + " = " + GRIP.Value2.ToString());
+            //        }
+            //        catch { }
+            //        pokazdanezexcela.Items.Add("Zgrz_PIN" + " = " + Zgrz_PIN.Value2.ToString());
+            //        if (bpmtype.Text == "ITBMovingBlade")
+            //        { }
+            //        else
+            //        {
+            //            try
+            //            {
+            //                pokazdanezexcela.Items.Add("Obr_band" + " = " + Obr_band.Value2.ToString());
+            //            }
+            //            catch
+            //            {
+            //                pokazdanezexcela.Items.Add("Obr_band" + " = " + "PUSTO");
+            //            }
+            //            try
+            //            {
+            //                pokazdanezexcela.Items.Add("FIG_BAND" + " = " + FIG_BAND.Value2.ToString());
+            //            }
+            //            catch
+            //            {
+            //                pokazdanezexcela.Items.Add("FIG_BAND" + " = " + "PUSTO");
+            //            }
+            //            try
+            //            {
+            //                pokazdanezexcela.Items.Add("FIG_N" + " = " + FIG_N.Value2.ToString());
+            //                if (FIG_N.Value2.ToString() == "F2A")
+            //                {
+            //                    MessageBox.Show("FIGURA F2A , wykonac recznie dodatkowe operacje frezowania czol nozki!", "UWAGA", MessageBoxButton.OK, MessageBoxImage.Information);
+            //                }
+            //                if (FIG_N.Value2.ToString() == "F3 (F2A)")
+            //                {
+            //                    MessageBox.Show("FIGURA F3 (F2A) , wykonac recznie dodatkowe operacje frezowania czol nozki!", "UWAGA", MessageBoxButton.OK, MessageBoxImage.Information);
+            //                }
+            //            }
+            //            catch
+            //            {
+            //                pokazdanezexcela.Items.Add("FIG_N" + " = " + "PUSTO");
+            //            }
+            //        }
+            //        //--------------------------------------------------------------
+            //        //PRZY OSIOWYCH BRAK WPISANEJ KOMORKI GRIP!!!
+            //        //--------------------------------------------------------------
+            //        if (bpmtype.Text != "RTBRadialFixedBlade")
+            //        {
+            //            //--------------------------------------------------------------
+            //            //WSTAWIENIE MOCOWANIA
+            //            //--------------------------------------------------------------
+            //            if (GRIP.Value2.ToString() == "TAK" && Zgrz_PIN.Value2.ToString() == "TAK")
+            //            {
+            //                //MessageBox.Show("GripPinWelding", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Information);
+            //                clamping.Text = "GripPinWelding";
+            //            }
+            //            else if (GRIP.Value2.ToString() == "TAK" && Zgrz_PIN.Value2.ToString() == "NIE")
+            //            {
+            //                //MessageBox.Show("GripPin", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Information);
+            //                clamping.Text = "GripPin";
+            //            }
+            //            else
+            //            {
+            //                MessageBox.Show("Bledne mocowanie, zglos sie do Mariusza!", "Mocowanie", MessageBoxButton.OK, MessageBoxImage.Error);
+            //            }
+            //        }
+            //        else
+            //        {
+            //            clamping.Text = "GripPinWelding";
+            //        }
 
-                    //-------------------------------------------------
-                    //blad formatu brak linkowania
-                    //-------------------------------------------------
-                    if (Avalue.Value2.ToString() == "-2146826265")//problem with linking in office365 jak to poprawic!!!
-                    {
-                        MessageBox.Show("Blad formatu komorki #Ref! -2146826265 , problem z linkowaniem plikow z kopiuj odpowiednie pliki", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
-                        mistake = true;
-                    }
+            //        //-------------------------------------------------
+            //        //blad formatu brak linkowania
+            //        //-------------------------------------------------
+            //        if (Avalue.Value2.ToString() == "-2146826265")//problem with linking in office365 jak to poprawic!!!
+            //        {
+            //            MessageBox.Show("Blad formatu komorki #Ref! -2146826265 , problem z linkowaniem plikow z kopiuj odpowiednie pliki", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
+            //            mistake = true;
+            //        }
 
-                }
-                else
-                {
-                    MessageBox.Show("Plik excel nieprawidlowy brak zakladki CNC, wybierz BRAK XLSa!!!", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
-                    mistake = true;
-                }
-                workbook.Close(0);
-                appl.Quit();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Plik excel nieprawidlowy brak zakladki CNC, wybierz BRAK XLSa!!!", "UWAGA!", MessageBoxButton.OK, MessageBoxImage.Error);
+            //        mistake = true;
+            //    }
+            //    workbook.Close(0);
+            //    appl.Quit();
 
-                zabijguwno("Excel", true);
+            //    zabijguwno("Excel", true);
 
-            }
-            catch (Exception e)
-            {
-                throw new Exception("check function showListViewDimensionMaterialFromexcel", e);
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("check function showListViewDimensionMaterialFromexcel", e);
+            //}
         }
 
         string convertBooltoString(bool pytanie)
